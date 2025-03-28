@@ -31,3 +31,33 @@ def get_prompt(file_path):
         
     return data["prompt"]
     
+def llama_pipeline(pipe, input_file, output_file, system_prompt):    
+    with open(input_file, "r", newline="", encoding="utf-8") as infile, \
+         open(output_file, "w", newline="", encoding="utf-8") as outfile:
+             
+        reader = csv.DictReader(infile)
+        cols = reader.fieldnames + ["llama_3.1_reasoning", "llama_3.1_label"]
+        
+        writer = csv.DictWriter(outfile, fieldnames=cols)
+        writer.writeheader()
+        
+        for i, row in enumerate(reader):
+            user_prompt = row["text"]
+            messages = [
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt
+                }
+            ]
+            
+            try:
+                #TODO: Check the reponse and update the code once we get access to LLaMA 3.1 API
+                response = pipe(messages)
+            except Exception as e:
+                print(f"Error processing row {i}: {e}")
+        
+    print(f"Processed {input_file} and saved to {output_file}")
