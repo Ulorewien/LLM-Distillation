@@ -1,6 +1,4 @@
 import torch
-import numpy as np
-import evaluate
 from datasets import load_dataset
 from transformers import DataCollatorWithPadding
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer, TrainingArguments

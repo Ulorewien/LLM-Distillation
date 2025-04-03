@@ -51,4 +51,5 @@ def compute_metrics(eval_pred):
     pred = np.argmax(logits, axis=1)
     acc = np.round(accuracy.compute(predictions=pred, references=labels)["accuracy"], 3)
     metrics = {"accuracy": acc, "auc": auc}
+    
     return metrics
